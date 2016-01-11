@@ -3,5 +3,7 @@ class assam :
 	pass
 class player:
 	pass
+class board:
+	pass
 class carpet:
 	pass
