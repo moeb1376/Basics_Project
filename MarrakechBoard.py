@@ -2,14 +2,15 @@ import pygame, sys, pygame.font, pygame.draw, string, random
 from pygame.locals import *
 import pygame.event as GAME_EVENTS
 
-
 pygame.init()
 
+x = 3
+y = 3
 turn = 0
-num = -1
+num = 0
 pos = 0
-x = 150
-y = 150
+boardX = 150
+boardY = 150
 cell = 50
 windowWidth = 650
 windowHeight = 650
@@ -75,7 +76,7 @@ def box(screen,boxX,boxY,turn):
   if (turn%4 == 3):
     BoardList[ int(carpet1[0]) - 1 ][ int(carpet1[1]) - 1 ] = "B"
     BoardList[ int(carpet2[0]) - 1 ][ int(carpet2[1]) - 1 ] = "B"
-def assam(screen,pos,x,y):
+def AssamMove(screen,pos,x,y):
     if (pos%4 == 0):
         pygame.draw.circle(screen, (165,42,42), (x,y), 20, 0)
         pygame.draw.circle(screen, (255,255,255), (x,y), 20, 2)
@@ -136,8 +137,7 @@ class Board:
                 else:
                     pygame.draw.rect(screen,(0,0,255),(150 + i*50, 150 + j*50, 50, 50))
 
-
-assam(surface,pos,windowWidth/2,windowHeight/2)
+AssamMove(surface,pos,windowWidth/2,windowHeight/2)
 
 while True:
 
@@ -146,13 +146,14 @@ while True:
     mousePosition = pygame.mouse.get_pos()
     fontobject = pygame.font.Font(None,18)
 
-
     MarrakechBoard = Board()
-    Board.borders(MarrakechBoard,surface,x,y,cell)
+    Board.borders(MarrakechBoard,surface,boardX,boardY,cell)
     Board.cells(MarrakechBoard,surface,BoardList)
-    Board.lines(MarrakechBoard,surface,x,y,cell)
+    Board.lines(MarrakechBoard,surface,boardX,boardY,cell)
 
-    assam(surface,pos,windowWidth/2,windowHeight/2)
+    assamX = boardX + cell / 2 + cell * x
+    assamY = boardY + cell / 2 + cell * y
+    AssamMove(surface,pos,assamX,assamY)
 
     rotateX = 10
     rotateY = 10
@@ -187,14 +188,13 @@ while True:
     pygame.draw.rect(surface, (0,0,0), (diceX, diceY, 50, 20), 0)
     pygame.draw.rect(surface, (255,255,255), (diceX - 2, diceY - 2, 54, 24), 2)
     surface.blit(fontobject.render("Dice!", 1, (255,255,255)), (diceX + 7, diceY + 5))
-    for i in range (num+1):
+    for i in range (num):
         pygame.draw.circle(surface,(0,200,200),(diceX + 70 + i * 20, diceY + 9),7,0)
         pygame.draw.circle(surface,(255,255,255),(diceX + 70 + i * 20, diceY + 9),7,2)
     if pygame.mouse.get_pressed()[0] == True:
         if (mousePosition[0] > diceX and mousePosition[0] < diceX + 50):
             if (mousePosition[1] > diceY and mousePosition[1] < diceY + 20):
-                num = random.randrange(0,6)
-
+                num = random.randrange(1,7)
 
     coinX = 250
     coinY = 580
@@ -235,7 +235,5 @@ while True:
                 for i in range(1000001):
                     turn += 1
 
-
     quitgame()
-
     pygame.display.update()
