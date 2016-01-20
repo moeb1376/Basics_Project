@@ -130,7 +130,7 @@ class board:
 			self.detail[coordinate2[0]][coordinate2[1]] = helCarpet
 		return flag
 def dfs(myBoard , assamX , assamY , color , checkList = [[0 for i in range(7)] for i in range(7)]):
-	if myBoard.get_detail_XY(assamX,assamY) != color or checkList[assamX][assamY] == 1:
+	if myBoard.get_detail_XY(assamX,assamY).get_color != color or checkList[assamX][assamY] == 1:
 		checkList[assamX][assamY] = 1
 		return 0
 	childs = get_child(assamX,assamY)
@@ -160,13 +160,15 @@ def find_player(playersList , color):
 		if playersList[i].get_color() == color:
 			return i
 myList = [[0,0,0,0,0,0,0],
+		  [0,0,1,0,0,0,0],
 		  [0,0,0,0,0,0,0],
-		  [0,0,0,0,0,0,0],
-		  [0,0,0,0,0,0,0],
-		  [0,0,0,0,0,0,0],
-		  [0,0,0,0,0,0,0],
-		  [0,0,0,0,0,0,0]]
-gameBoard = board(4)
+		  [0,0,0,1,0,0,0],
+		  [0,0,0,1,1,0,1],
+		  [0,0,0,1,1,0,1],
+		  [0,0,0,0,1,1,1]]
+gameBoard = board(4,myList)
+print dfs(gameBoard,3,3,1)
+'''gameBoard = board(4)
 numberCarpets = gameBoard.get_number_carpets()
 myAssam = assam()
 playerList = [player('green' , numberCarpets) , player('blue' , numberCarpets) , player('red' , numberCarpets) , player('yellow' ,numberCarpets)]
@@ -188,5 +190,5 @@ while gameBoard.get_round() < numberCarpets:
 	targetPlayer = find_player(playerList , assamCellColor)
 	playerList[turnPlayer].set_coin(playerList[turnPlayer].get_coin() - coin)
 	playerList[targetPlayer].set_coin(playerList[targetPlayer].get_coin() + coin)
-	gameBoard.set_turn()
+	gameBoard.set_turn()'''
 
