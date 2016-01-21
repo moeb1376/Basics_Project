@@ -130,7 +130,7 @@ class board:
 			self.detail[coordinate2[0]][coordinate2[1]] = helCarpet
 		return flag
 def dfs(myBoard , assamX , assamY , color , checkList = [[0 for i in range(7)] for i in range(7)]):
-	if myBoard.get_detail_XY(assamX,assamY).get_color != color or checkList[assamX][assamY] == 1:
+	if myBoard.get_detail_XY(assamX,assamY) != color or checkList[assamX][assamY] == 1:
 		checkList[assamX][assamY] = 1
 		return 0
 	childs = get_child(assamX,assamY)
@@ -160,14 +160,14 @@ def find_player(playersList , color):
 		if playersList[i].get_color() == color:
 			return i
 myList = [[0,0,0,0,0,0,0],
-		  [0,0,1,0,0,0,0],
 		  [0,0,0,0,0,0,0],
-		  [0,0,0,1,0,0,0],
-		  [0,0,0,1,1,0,1],
-		  [0,0,0,1,1,0,1],
-		  [0,0,0,0,1,1,1]]
+		  [0,0,0,0,0,0,0],
+		  [0,0,0,0,0,0,0],
+		  [0,0,0,1,1,0,0],
+		  [0,0,0,0,1,1,0],
+		  [0,0,0,0,0,0,0]]
 gameBoard = board(4,myList)
-print dfs(gameBoard,3,3,1)
+print dfs(gameBoard,4,5,1)
 '''gameBoard = board(4)
 numberCarpets = gameBoard.get_number_carpets()
 myAssam = assam()
