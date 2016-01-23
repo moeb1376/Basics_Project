@@ -17,6 +17,8 @@ boardY = 150
 cell = 50
 windowWidth = 650
 windowHeight = 650
+f = open("LOG.txt","w")
+f.close()
 
 surface = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Marrakech Board!')
@@ -118,6 +120,15 @@ def find_player(playersList, color):
     for i in range (len(playersList)):
         if playersList[i].get_color() == color:
             return i
+def LOG(iterable, *myString):
+    myFile = open("LOG.txt" , 'a')
+    answer = ""
+    for i in myString:
+        answer += str(i) + iterable
+    answer += "\n"
+    myFile.write(answer)
+    myFile.close()
+
 
 class ShowBoard:
     def __init__(self):
@@ -200,7 +211,14 @@ class assam:
                 self.y = hel - (hel % 7 + 1) * (hel // 7)
                 self.x -= (hel % 7) * (hel // 7)
                 self.face += (hel // 7)
-
+    def get_neighbor(self):
+        answer = []
+        for i in range(-1,2):
+            for j in range(-1,2):
+                if -1<self.x + i <7 and -1<self.y + j<7:
+                    answer.append((self.x + i , self.y + j))
+        answer.remove((self.x,self.y))
+        return answer
     def get_coordinate(self):
         return (self.x, self.y)
 
@@ -275,19 +293,37 @@ class board:
     def check_correct_move(self, myAssam, coordinate1, coordinate2, myPlayer):
         flag = False
         assamCoordinate = myAssam.get_coordinate()
-        if (abs(assamCoordinate[0] - coordinate1[0]) <= 1 or abs(assamCoordinate[1] - coordinate1[1]) <= 1) and (
-                abs(assamCoordinate[0] - coordinate2[0]) <= 1 or abs(assamCoordinate[1] - coordinate2[1]) <= 1):
-            if self.detail[coordinate1[0]][coordinate1[1]] == 0 or self.detail[coordinate2[0]][coordinate2[1]] == 0:
+        helCoordinate = myAssam.get_neighbor()
+        for i in helCoordinate:
+            LOG("______" , '        ' , "i : " , i , "cor 1 , 2 : ",coordinate1,coordinate2)
+            if coordinate1 == i or coordinate2 == i:
                 flag = True
-            elif self.detail[coordinate1[0]][coordinate1[1]] == self.detail[coordinate2[0]][coordinate2[1]]:
-                if myPlayer.get_color() == self.detail[coordinate1[0]][coordinate1[1]].get_color():
+                break
+        if flag:
+            if self.detail[coordinate1[1]][coordinate1[0]] == 0 or self.detail[coordinate2[1]][coordinate2[0]] == 0:
+                flag = True
+            elif self.detail[coordinate1[1]][coordinate1[0]] == self.detail[coordinate2[1]][coordinate2[0]]:
+                if myPlayer.get_color() == self.detail[coordinate1[1]][coordinate1[0]].get_color():
                     flag = True
                 else:
                     flag = False
             else:
                 flag = True
-        else:
-            flag = False
+        LOG(" ",'flag : ',flag)
+        LOG(" ","assamcoordinate : ",assamCoordinate)
+        LOG(" ","coordinate 1 o 2 : ",coordinate1,coordinate2)
+        LOG(" ","detail 1 : " , self.detail[coordinate1[1]][coordinate1[0]])
+        LOG(" ","detail 2 : " , self.detail[coordinate2[1]][coordinate2[0]])
+        for i in range(7):
+            for j in range(7):
+                print self.detail[j][i],
+            print
+        for i in range(7):
+            for j in range(7):
+                if self.detail[j][i] != 0:
+                    print (j,i)
+            print
+        print 20*"*"
         if flag:
             helCarpet = myPlayer.get_player_carpet()
             self.detail[coordinate1[1]][coordinate1[0]] = helCarpet
