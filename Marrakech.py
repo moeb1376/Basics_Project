@@ -7,6 +7,7 @@ class assam:
         self.face = face
         self.x = x
         self.y = y
+<<<<<<< HEAD
 
     def move(self, dice):
         if self.face == 1:
@@ -53,6 +54,54 @@ class assam:
     def get_coordinate(self):
         return (self.x, self.y)
 
+=======
+
+    def move(self, dice):
+        if self.face == 1:
+            hel = self.x + dice
+            if self.y != 6:
+                self.x = hel - (hel - 6 + hel % 7) * int(hel > 6)
+                self.y += (-1) ** (self.y) * (hel // 7)
+                self.face += 2 * (hel // 7)
+            else:
+                self.x = hel - (hel % 7 + 1) * (hel // 7)
+                self.y -= (hel % 7) * (hel // 7)
+                self.face += 3 * (hel // 7)
+        elif self.face == 4:
+            hel = self.y - dice
+            if self.x != 0:
+                self.y = hel - (2 * hel + 1) * int(hel < 0)
+                self.x += (-1) ** (self.x + 1) * int(hel < 0)
+                self.face -= 2 * int(hel < 0)
+            else:
+                self.y = hel * int(hel > 0)
+                self.x = (-1) * (hel + 1) * int(hel < 0)
+                self.face -= 3 * int(hel < 0)
+        elif self.face == 3:
+            hel = self.x - dice
+            if self.y != 0:
+                self.x = hel - (2 * hel + 1) * int(hel < 0)
+                self.y += (-1) ** (self.y + 1) * int(hel < 0)
+                self.face -= 2 * int(hel < 0)
+            else:
+                self.x = hel * int(hel > 0)
+                self.y = (-1) * (hel + 1) * int(hel < 0)
+                self.face -= int(hel < 0)
+        else:
+            hel = self.y + dice
+            if self.x != 6:
+                self.y = hel - (hel - 6 + hel % 7) * int(hel > 6)
+                self.x += (-1) ** (self.x) * (hel // 7)
+                self.face += 2 * (hel // 7)
+            else:
+                self.y = hel - (hel % 7 + 1) * (hel // 7)
+                self.x -= (hel % 7) * (hel // 7)
+                self.face += (hel // 7)
+
+    def get_coordinate(self):
+        return (self.x, self.y)
+
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
     def __str__(self):
         return 'assam . x : ' + str(self.x) + ' / assam . y : ' + str(self.y) + ' / assam . face : ' + str(self.face)
 
@@ -96,6 +145,10 @@ class player:
 
 
 class board:
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
     def __init__(self, numberPlayers, detail=[[0 for i in range(7)] for i in range(7)], gameTurn=0, gameRound=0):
         self.numberPlayers = numberPlayers
         self.detail = detail
@@ -182,6 +235,7 @@ def find_player(playersList, color):
         if playersList[i].get_color() == color:
             return i
 
+<<<<<<< HEAD
 def LOG(iterable = ' ' , *myString):
     myFile = open("LOG.txt" , 'a')
     answer = ""
@@ -192,6 +246,99 @@ def LOG(iterable = ' ' , *myString):
 
 LOG(" ", "a",'b','c')
 
+=======
+
+myList = [[0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0],
+          [0, 0, 0, 0, 0, 0, 0]]
+gameBoard = board(4)
+=======
+	def __init__(self , numberPlayers , detail = [[0 for i in range(7)] for i in range(7)] , gameTurn = 0 , gameRound = 0):
+		self.numberPlayers = numberPlayers
+		self.detail = detail
+		self.gameTurn = gameTurn
+		self.gameRound = gameRound
+	def get_number_carpets(self):
+		if (self.numberPlayers == 4):
+			return 12
+		else:
+			return 15
+	def get_detail_XY(self , x , y):
+		return self.detail[x][y]
+	def get_turn(self):
+		return self.gameTurn
+	def get_round(self):
+		return self.gameRound
+	def set_turn(self):
+		if self.gameTurn == 3:
+			self.gameTurn = 0
+			self.gameRound +=1
+		else:
+			self.gameTurn += 1
+	def check_correct_move(self , myAssam , coordinate1 , coordinate2 , myPlayer):
+		flag = False
+		assamCoordinate = myAssam.get_coordinate()
+		if (abs(assamCoordinate[0] - coordinate1[0]) <= 1 or abs(assamCoordinate[1] - coordinate1[1]) <= 1) and (abs(assamCoordinate[0] - coordinate2[0]) <= 1 or abs(assamCoordinate[1] - coordinate2[1]) <= 1):
+			if self.detail[coordinate1[0]][coordinate1[1]] == 0 or self.detail[coordinate2[0]][coordinate2[1]] == 0:
+				flag = True
+			elif self.detail[coordinate1[0]][coordinate1[1]] == self.detail[coordinate2[0]][coordinate2[1]]:
+				if myPlayer.get_color() == self.detail[coordinate1[0]][coordinate1[1]].get_color() :
+					flag = True
+				else:
+					flag = False
+			else:
+				flag = True
+		else:
+			flag = False
+		if flag:
+			helCarpet = myPlayer.get_player_carpet()
+			self.detail[coordinate1[0]][coordinate1[1]] = helCarpet
+			self.detail[coordinate2[0]][coordinate2[1]] = helCarpet
+		return flag
+def dfs(myBoard , assamX , assamY , color , checkList = [[0 for i in range(7)] for i in range(7)]):
+	if myBoard.get_detail_XY(assamX,assamY).get_color != color or checkList[assamX][assamY] == 1:
+		checkList[assamX][assamY] = 1
+		return 0
+	childs = get_child(assamX,assamY)
+	hel = 0
+	for i in childs:
+		hel += checkList[i[0]][i[1]]
+	if hel == 4:
+		return 1
+	answer = 0
+	checkList[assamX][assamY] = 1
+	for i in childs:
+		answer += dfs(myBoard , i[0] , i[1] , color , checkList)
+	return answer+1
+def get_child(x , y):
+	answer =[]
+	if -1<x-1<7:
+		answer.append((x-1,y))
+	if -1<x+1<7:
+		answer.append((x+1,y))
+	if -1<y-1<7:
+		answer.append((x,y-1))
+	if -1<y+1<7:
+		answer.append((x,y+1))
+	return answer
+def find_player(playersList , color):
+	for i in len(playersList):
+		if playersList[i].get_color() == color:
+			return i
+myList = [[0,0,0,0,0,0,0],
+		  [0,0,1,0,0,0,0],
+		  [0,0,0,0,0,0,0],
+		  [0,0,0,1,0,0,0],
+		  [0,0,0,1,1,0,1],
+		  [0,0,0,1,1,0,1],
+		  [0,0,0,0,1,1,1]]
+gameBoard = board(4,myList)
+print dfs(gameBoard,3,3,1)
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
 '''gameBoard = board(4)
 >>>>>>> 07e7f825ae077e096c5bd0755b471b90a2d746cb
 numberCarpets = gameBoard.get_number_carpets()
@@ -237,3 +384,8 @@ while gameBoard.get_round() < numberCarpets:
 	playerList[turnPlayer].set_coin(playerList[turnPlayer].get_coin() - coin)
 	playerList[targetPlayer].set_coin(playerList[targetPlayer].get_coin() + coin)
 	gameBoard.set_turn()'''
+<<<<<<< HEAD
+=======
+
+>>>>>>> 07e7f825ae077e096c5bd0755b471b90a2d746cb
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883

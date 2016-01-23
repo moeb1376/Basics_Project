@@ -17,8 +17,11 @@ boardY = 150
 cell = 50
 windowWidth = 650
 windowHeight = 650
+<<<<<<< HEAD
 f = open("LOG.txt","w")
 f.close()
+=======
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
 
 surface = pygame.display.set_mode((windowWidth, windowHeight))
 pygame.display.set_caption('Marrakech Board!')
@@ -120,6 +123,7 @@ def find_player(playersList, color):
     for i in range (len(playersList)):
         if playersList[i].get_color() == color:
             return i
+<<<<<<< HEAD
 def LOG(iterable, *myString):
     myFile = open("LOG.txt" , 'a')
     answer = ""
@@ -129,6 +133,8 @@ def LOG(iterable, *myString):
     myFile.write(answer)
     myFile.close()
 
+=======
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
 
 class ShowBoard:
     def __init__(self):
@@ -222,6 +228,9 @@ class assam:
     def get_coordinate(self):
         return (self.x, self.y)
 
+    def get_coordinate(self):
+        return (self.x, self.y)
+
     def __str__(self):
         return 'assam . x : ' + str(self.x) + ' / assam . y : ' + str(self.y) + ' / assam . face : ' + str(self.face)
 class carpet:
@@ -293,6 +302,7 @@ class board:
     def check_correct_move(self, myAssam, coordinate1, coordinate2, myPlayer):
         flag = False
         assamCoordinate = myAssam.get_coordinate()
+<<<<<<< HEAD
         helCoordinate = myAssam.get_neighbor()
         for i in helCoordinate:
             LOG("______" , '        ' , "i : " , i , "cor 1 , 2 : ",coordinate1,coordinate2)
@@ -304,11 +314,20 @@ class board:
                 flag = True
             elif self.detail[coordinate1[1]][coordinate1[0]] == self.detail[coordinate2[1]][coordinate2[0]]:
                 if myPlayer.get_color() == self.detail[coordinate1[1]][coordinate1[0]].get_color():
+=======
+        if (abs(assamCoordinate[0] - coordinate1[0]) <= 1 or abs(assamCoordinate[1] - coordinate1[1]) <= 1) and (
+                abs(assamCoordinate[0] - coordinate2[0]) <= 1 or abs(assamCoordinate[1] - coordinate2[1]) <= 1):
+            if self.detail[coordinate1[0]][coordinate1[1]] == 0 or self.detail[coordinate2[0]][coordinate2[1]] == 0:
+                flag = True
+            elif self.detail[coordinate1[0]][coordinate1[1]] == self.detail[coordinate2[0]][coordinate2[1]]:
+                if myPlayer.get_color() == self.detail[coordinate1[0]][coordinate1[1]].get_color():
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
                     flag = True
                 else:
                     flag = False
             else:
                 flag = True
+<<<<<<< HEAD
         LOG(" ",'flag : ',flag)
         LOG(" ","assamcoordinate : ",assamCoordinate)
         LOG(" ","coordinate 1 o 2 : ",coordinate1,coordinate2)
@@ -324,6 +343,10 @@ class board:
                     print (j,i)
             print
         print 20*"*"
+=======
+        else:
+            flag = False
+>>>>>>> 2a6c472eb5c86de2a3837b66eb178965fabf1883
         if flag:
             helCarpet = myPlayer.get_player_carpet()
             self.detail[coordinate1[1]][coordinate1[0]] = helCarpet
